@@ -7,14 +7,6 @@ using namespace std;
 int main () {
 
     int n, m, i, j, aux, zeros = 0;
-    /*if (scanf("%d", &n) != 1) {
-        fprintf( stderr, "Expected at least two numbers as input\n");
-        exit(-1);
-    }
-    if (scanf("%d", &m) != 1) {
-        fprintf( stderr, "Expected at least two numbers as input\n");
-        exit(-1);
-    }*/
 
     cin >> n;
     cin >> m;
