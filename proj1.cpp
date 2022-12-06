@@ -12,14 +12,6 @@ int main () {
     cin >> n;
     cin >> m;
     vector<vector<int>> tiles = vector<vector<int>>(n, vector<int>(m, 0));
-    /*
-    for(i = 0; i < n; ++i) {
-        vector<int> vec = {};
-        for(j = 0; j < m; j++) {
-            vec.push_back(0);
-        }
-        tiles.push_back(vec);
-    }*/
 
     for(i = 0; i < n; i++) {
         cin >> aux;
