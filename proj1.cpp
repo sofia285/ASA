@@ -41,7 +41,7 @@ vector<vector<int>> negatives(vector<vector<int>> aux , int aux_i, int aux_j, in
 }
 
 
-void getCombinations(vector<vector<int>> tiles, vector<vector<int>> aux, int n, int m, int id) {
+void getCombinations(vector<vector<int>> aux, int n, int m, int id) {
 
     int k, i, j;
     //cin >> in;
@@ -63,7 +63,7 @@ void getCombinations(vector<vector<int>> tiles, vector<vector<int>> aux, int n, 
                 if(aux.at(i).at(j) > 1) {
                     for (k = aux.at(i).at(j); k > 0; k--) {
                         vector<vector<int>> aux2 = negatives(aux, i, j, k, id);
-                        getCombinations(tiles, aux2, n, m, id - 1);
+                        getCombinations(aux2, n, m, id - 1);
                     }
                     return ;
                 }
@@ -113,7 +113,7 @@ int main () {
     for (i = n - 1; i >= 0; i--) {
         for (j = 0; j < m; j++) {
             if (tiles.at(i).at(j) > 1) {
-                getCombinations(tiles, tiles, n, m, -1);
+                getCombinations(tiles, n, m, -1);
                 cout << combinations << endl;
                 return 0;
             }
