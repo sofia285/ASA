@@ -35,19 +35,9 @@ vector<vector<int>> negatives(vector<vector<int>> aux , int aux_i, int aux_j, in
 void getCombinations(vector<vector<int>> tiles, vector<vector<int>> aux, int n, int m, int id) {
 
     int k, i, j ;
-    /*
-    cout << "\n" << "aux" << endl;
-    for(i = 0; i < n; i++) {    
-        for (j = 0; j < m; j++) {
-            cout << aux.at(i).at(j) << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;*/
 
     if (isComplete(aux, n, m)) {
         combinations++;
-        //cout << "yes" << endl;
     }
 
     else {
@@ -116,15 +106,6 @@ int main () {
     else if (diff == 0) {
         combinations++;
     }
-
-    // print da matriz
-    /*cout << "tiles" << endl; 
-    for(i = 0; i < n; i++) {    
-        for (j = 0; j < m; j++) {
-            cout << tiles.at(i).at(j) << " ";
-        }
-        cout << endl;
-    }*/
 
     cout << combinations << endl;
 
