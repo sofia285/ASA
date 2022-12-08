@@ -21,10 +21,19 @@ bool isComplete(vector<vector<int>> aux, int n, int m) {
 }
 
 vector<vector<int>> negatives(vector<vector<int>> aux , int aux_i, int aux_j, int k, int id) {
-    int i, j;
+    int i, j, l, n;
     for (i = aux_i; i > aux_i - k; i--) {
         for (j = aux_j; j < aux_j + k; j++) {
             aux.at(i).at(j) = id;
+            if(j > 0 && aux.at(i).at(j - 1) > 1) {
+                n = 1;
+                for (l = j - 1; l >= 0; l--) {
+                    if (aux.at(i).at(l) > n) {
+                        aux.at(i).at(l) = n;
+                    }
+                    n++;
+                }
+            }
         }
     }
 
@@ -35,8 +44,8 @@ vector<vector<int>> negatives(vector<vector<int>> aux , int aux_i, int aux_j, in
 void getCombinations(vector<vector<int>> tiles, vector<vector<int>> aux, int n, int m, int id) {
 
     int k, i, j;
-    /*cin >> in;
-    cout << "aux" << endl;
+    //cin >> in;
+    /*cout << "aux" << endl;
     for (i = 0; i < n; i++) {
         for (j = 0; j < m; j++) {
             cout << aux.at(i).at(j) << " ";
@@ -66,7 +75,7 @@ void getCombinations(vector<vector<int>> tiles, vector<vector<int>> aux, int n, 
 
 int main () {
 
-    int n, j, i, m, aux, count_0 = 0, diff = 0;
+    int n, j, i, m, aux, count_0 = 0;
 
     cin >> n;
     cin >> m;
@@ -83,7 +92,13 @@ int main () {
         }
         if (aux == 0){
             tiles.at(i).at(aux) = 0;
+            count_0++;
         }
+    }
+
+    if (count_0 == n) {
+        cout << 0 <<endl;
+        return 0;
     }
 
     // Descobre quantos quadrados de n x n cabe em cada ponto da matriz
@@ -98,24 +113,13 @@ int main () {
     for (i = n - 1; i >= 0; i--) {
         for (j = 0; j < m; j++) {
             if (tiles.at(i).at(j) > 1) {
-                diff++;
                 getCombinations(tiles, tiles, n, m, -1);
-            }
-
-            else if (tiles.at(i).at(j) == 0) {
-                count_0++;
+                cout << combinations << endl;
+                return 0;
             }
         }
     }
-
-    if (count_0 == n * m) {
-        combinations = 0;
-    }
-
-    else if (diff == 0) {
-        combinations++;
-    }
-
+    cout << 1 << endl;
     /*cout << "tiles" << endl;
 
     for (i = 0; i < n; i++) {
@@ -125,7 +129,7 @@ int main () {
         cout << endl;
     }*/
 
-    cout << combinations << endl;
+    //cout << combinations << endl;
 
   return 0;
 }
