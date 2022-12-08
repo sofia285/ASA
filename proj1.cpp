@@ -47,6 +47,7 @@ void getCombinations(vector<vector<int>> tiles, vector<vector<int>> aux, int n, 
 
     if (isComplete(aux, n, m)) {
         combinations++;
+        cout << "yes" << endl;
     }
 
     else {
