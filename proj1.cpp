@@ -11,7 +11,7 @@ bool isComplete(vector<vector<int>> aux, int n, int m) {
     int i, j;
     for (i = n - 1; i >= 0; i--) {
         for (j = 0; j < m; j++) {
-            if (aux.at(i).at(j) > 1) {
+            if (aux.at(i).at(j) >= 2) {
                 return false;
             }
         }
@@ -34,7 +34,15 @@ vector<vector<int>> negatives(vector<vector<int>> aux , int aux_i, int aux_j, in
 
 void getCombinations(vector<vector<int>> tiles, vector<vector<int>> aux, int n, int m, int id) {
 
-    int k, i, j ;
+    int k, i, j;
+    /*cin >> in;
+    cout << "aux" << endl;
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            cout << aux.at(i).at(j) << " ";
+        }
+        cout << endl;
+    }*/
 
     if (isComplete(aux, n, m)) {
         combinations++;
@@ -48,6 +56,7 @@ void getCombinations(vector<vector<int>> tiles, vector<vector<int>> aux, int n, 
                         vector<vector<int>> aux2 = negatives(aux, i, j, k, id);
                         getCombinations(tiles, aux2, n, m, id - 1);
                     }
+                    return ;
                 }
             }
         }
@@ -106,6 +115,15 @@ int main () {
     else if (diff == 0) {
         combinations++;
     }
+
+    /*cout << "tiles" << endl;
+
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            cout << tiles.at(i).at(j) << " ";
+        }
+        cout << endl;
+    }*/
 
     cout << combinations << endl;
 
