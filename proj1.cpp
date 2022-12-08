@@ -25,6 +25,7 @@ int main () {
             tiles.at(i).at(aux) = 0;
     }
 
+    // Descobre quantos quadrados de n x n cabe em cada ponto da matriz
     for (i = 1; i < n; i++) {
         for (j = m - 2; j >= 0; j--) {
             if (tiles.at(i).at(j) != 0) {
@@ -34,12 +35,13 @@ int main () {
     }
 
     
+    
 
 
     // print da matriz com 0 e 1
     for(i = 0; i < n; i++) {
         for (j = 0; j < m; j++) {
-            cout << tiles[i][j] << " ";
+            cout << tiles.at(i).at(j) << " ";
         }
         cout << endl;
     }
