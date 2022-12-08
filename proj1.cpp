@@ -55,22 +55,20 @@ void getCombinations(vector<vector<int>> aux, int n, int m, int id) {
 
     if (isComplete(aux, n, m)) {
         combinations++;
+        return;
     }
-
-    else {
-        for (i = n - 1; i >= 0; i--) {
-            for (j = 0; j < m; j++) {
-                if(aux.at(i).at(j) > 1) {
-                    for (k = aux.at(i).at(j); k > 0; k--) {
-                        vector<vector<int>> aux2 = negatives(aux, i, j, k, id);
-                        getCombinations(aux2, n, m, id - 1);
-                    }
-                    return ;
+    
+    for (i = n - 1; i >= 0; i--) {
+        for (j = 0; j < m; j++) {
+            if(aux.at(i).at(j) > 1) {
+                for (k = aux.at(i).at(j); k > 0; k--) {
+                    vector<vector<int>> aux2 = negatives(aux, i, j, k, id);
+                    getCombinations(aux2, n, m, id - 1);
                 }
+                return;
             }
         }
     }
-
 }
 
 int main () {
