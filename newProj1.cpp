@@ -5,14 +5,12 @@
 
 using namespace std;
 
-int n_0;
-
 int combinations = 0;
 
 void printMatrix(vector<vector<int>> tiles, int n, int m) {
     int i, j;
     cout << "tiles" << endl;
-    for (i = n_0; i < n; i++) {
+    for (i = 0; i < n; i++) {
         for(j = 0; j < m; j++) {
             cout << tiles.at(i).at(j) << " ";
         }
@@ -24,7 +22,7 @@ void getCombinations(vector<vector<int>> aux, int n, int m, int id) {
 
     int k, i, j, aux_i, aux_j, s, l;
     
-    for (i = n - 1; i >= n_0; i--) {
+    for (i = n - 1; i >= 0; i--) {
         for (j = 0; j < m; j++) {
             if(aux.at(i).at(j) > 1) {
                 for (k = aux.at(i).at(j); k > 0; k--) {
@@ -54,7 +52,7 @@ void getCombinations(vector<vector<int>> aux, int n, int m, int id) {
 
 int main () {
 
-    int n, j, i, m, aux, count_0 = 0, max_n = 0, max_m = 0;
+    int n, j, i, m, aux, count_0 = 0, max = 0;
 
     cin >> n;
     cin >> m;
@@ -63,12 +61,9 @@ int main () {
     // colocação dos 1 na matriz e descobre quantos quadrados cabem
     for(i = 0; i < n; i++) {
         cin >> aux;
-        if (aux > max_m) {
-            max_m = aux;
-        }
 
-        if (aux > 1) {
-            max_n++;
+        if (aux > max) {
+            max = aux;
         }
         if (aux > 0) {
             for(j = aux - 1; j >= 0; j--) {
@@ -84,14 +79,14 @@ int main () {
             count_0++;
         }
     }
+
     if (count_0 == n) {
         cout << 0 <<endl;
         return 0;
     }
 
     if (tiles.at(n - 1).at(0) > 1) {
-        n_0 = n - max_n;
-        getCombinations(tiles, max_n, max_m, -1);
+        getCombinations(tiles, n, max, -1);
         cout << combinations << endl;
         return 0;
     }
