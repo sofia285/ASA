@@ -95,7 +95,10 @@ int main () {
     if (tiles.at(n_max - 1).at(0) > 1) {
         getCombinations(&tiles, n_max, m_max, -1);
         cout << combinations << endl;
+        return 0;
     }
+
+    cout << 1 << endl;
 
   return 0;
 }
