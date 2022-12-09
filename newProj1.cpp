@@ -65,7 +65,6 @@ int main () {
     cin >> m;
     vector<vector<int>> tiles = vector<vector<int>>(n, vector<int>(m, 0));
 
-
     // colocação dos 1 na matriz e descobre quantos quadrados cabem
     for(i = 0; i < n; i++) {
         cin >> aux;
@@ -84,13 +83,10 @@ int main () {
             count_0++;
         }
     }
-
     if (count_0 == n) {
         cout << 0 <<endl;
         return 0;
     }
-
-    printMatrix(tiles, n, m);
 
     for (i = n - 1; i >= 0; i--) {
         for (j = 0; j < m; j++) {
