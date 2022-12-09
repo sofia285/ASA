@@ -18,36 +18,29 @@ void printMatrix(vector<vector<int>> tiles, int n, int m) {
     }
 }
 
-vector<vector<int>> negatives(vector<vector<int>> aux , int aux_i, int aux_j, int k, int id) {
-    int i, j, l, n;
-    for (i = aux_i; i > aux_i - k; i--) {
-        for (j = aux_j; j < aux_j + k; j++) {
-            aux.at(i).at(j) = id;
-            if(j > 0 && aux.at(i).at(j - 1) > 1) {
-                n = 1;
-                for (l = j - 1; l >= 0; l--) {
-                    if (aux.at(i).at(l) > n) {
-                        aux.at(i).at(l) = n;
-                    }
-                    n++;
-                }
-            }
-        }
-    }
-
-    return aux;
-}
-
-
 void getCombinations(vector<vector<int>> aux, int n, int m, int id) {
 
-    int k, i, j;
+    int k, i, j, aux_i, aux_j, s, l;
     
     for (i = n - 1; i >= 0; i--) {
         for (j = 0; j < m; j++) {
             if(aux.at(i).at(j) > 1) {
                 for (k = aux.at(i).at(j); k > 0; k--) {
-                    vector<vector<int>> aux2 = negatives(aux, i, j, k, id);
+                    vector<vector<int>> aux2 = aux;
+                    for (aux_i = i; aux_i > i - k; aux_i--) {
+                        for (aux_j = j; aux_j < j + k; aux_j++) {
+                            aux2.at(aux_i).at(aux_j) = id;
+                            if(aux_j > 0 && aux2.at(aux_i).at(aux_j - 1) > 1) {
+                                s = 1;
+                                for (l = aux_j - 1; l >= 0; l--) {
+                                    if (aux2.at(aux_i).at(l) > s) {
+                                        aux2.at(aux_i).at(l) = s;
+                                    }
+                                    s++;
+                                }
+                            }
+                        }
+                    }
                     getCombinations(aux2, n, m, id - 1);
                 }
                 return;
