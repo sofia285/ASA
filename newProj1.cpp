@@ -18,15 +18,15 @@ void printMatrix(vector<vector<int>> tiles, int n, int m) {
     }
 }
 
-void getCombinations(vector<vector<int>> aux, int n_0, int n, int m, int id) {
+void getCombinations(vector<vector<int>>* aux_super, int n_0, int n, int m, int id) {
 
     int k, i, j, aux_i, aux_j, s, l;
     
     for (i = n - 1; i >= n_0; i--) {
         for (j = 0; j < m; j++) {
-            if(aux.at(i).at(j) > 1) {
-                for (k = aux.at(i).at(j); k > 0; k--) {
-                    vector<vector<int>> aux2 = aux;
+            if((*aux_super).at(i).at(j) > 1) {
+                for (k = (*aux_super).at(i).at(j); k > 0; k--) {
+                    vector<vector<int>> aux2 = (*aux_super);
                     for (aux_i = i; aux_i > i - k; aux_i--) {
                         for (aux_j = j; aux_j < j + k; aux_j++) {
                             aux2.at(aux_i).at(aux_j) = id;
@@ -41,7 +41,7 @@ void getCombinations(vector<vector<int>> aux, int n_0, int n, int m, int id) {
                             }
                         }
                     }
-                    getCombinations(aux2,n_0, n, m, id - 1);
+                    getCombinations(&aux2,n_0, n, m, id - 1);
                 }
                 return;
             }
@@ -91,7 +91,7 @@ int main () {
 
     if (tiles.at(n - 1).at(0) > 1) {
         newN = n - n_max;
-        getCombinations(tiles, newN, n, m_max, -1);
+        getCombinations(&tiles, newN, n, m_max, -1);
         cout << combinations << endl;
         return 0;
     }
