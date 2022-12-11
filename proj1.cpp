@@ -7,127 +7,101 @@ using namespace std;
 
 int combinations = 0;
 
-bool isComplete(vector<vector<int>> aux, int n, int m) {
+void printMatrix(vector<vector<int>> tiles, int n, int m) {
     int i, j;
-    for (i = n - 1; i >= 0; i--) {
-        for (j = 0; j < m; j++) {
-            if (aux.at(i).at(j) >= 2) {
-                return false;
-            }
-        }
-    }
-    return true;
-
-}
-
-vector<vector<int>> negatives(vector<vector<int>> aux , int aux_i, int aux_j, int k, int id) {
-    int i, j, l, n;
-    for (i = aux_i; i > aux_i - k; i--) {
-        for (j = aux_j; j < aux_j + k; j++) {
-            aux.at(i).at(j) = id;
-            if(j > 0 && aux.at(i).at(j - 1) > 1) {
-                n = 1;
-                for (l = j - 1; l >= 0; l--) {
-                    if (aux.at(i).at(l) > n) {
-                        aux.at(i).at(l) = n;
-                    }
-                    n++;
-                }
-            }
-        }
-    }
-
-    return aux;
-}
-
-
-void getCombinations(vector<vector<int>> aux, int n, int m, int id) {
-
-    int k, i, j;
-    //cin >> in;
-    /*cout << "aux" << endl;
+    cout << "tiles" << endl;
     for (i = 0; i < n; i++) {
-        for (j = 0; j < m; j++) {
-            cout << aux.at(i).at(j) << " ";
+        for(j = 0; j < m; j++) {
+            cout << tiles.at(i).at(j) << " ";
         }
         cout << endl;
-    }*/
-
-    if (isComplete(aux, n, m)) {
-        combinations++;
-        return;
     }
+}
+
+void getCombinations(vector<vector<int>>* aux_super, int n, int m, int i_0, int j_0, int id) {
+
+    int k, i, j, j_1, aux_i, aux_j, s, l;
     
-    for (i = n - 1; i >= 0; i--) {
-        for (j = 0; j < m; j++) {
-            if(aux.at(i).at(j) > 1) {
-                for (k = aux.at(i).at(j); k > 0; k--) {
-                    vector<vector<int>> aux2 = negatives(aux, i, j, k, id);
-                    getCombinations(aux2, n, m, id - 1);
+    for (i = i_0; i >= 0; i--) {
+        for (j = j_0; j < m; j++) {
+            if((*aux_super).at(i).at(j) > 1) {
+                for (k = (*aux_super).at(i).at(j); k > 0; k--) {
+                    vector<vector<int>> aux2 = (*aux_super);
+                    for (aux_i = i; aux_i > i - k; aux_i--) {
+                        for (aux_j = j; aux_j < j + k; aux_j++) {
+                            aux2.at(aux_i).at(aux_j) = id;
+                            if(aux_j > 0 && aux2.at(aux_i).at(aux_j - 1) > 1) {
+                                s = 1;
+                                for (l = aux_j - 1; l >= 0; l--) {
+                                    if (aux2.at(aux_i).at(l) > s) {
+                                        aux2.at(aux_i).at(l) = s;
+                                    }
+                                    s++;
+                                }
+                            }
+                        }
+                    }
+                    j_1 = j_0 + k;
+                    
+                    getCombinations(&aux2, n, m, i_0, j_1, id - 1);
                 }
                 return;
             }
         }
+        j_0 = 0;
     }
+    combinations++;
 }
 
 int main () {
 
-    int n, j, i, m, aux, count_0 = 0;
+    int n, j, i, m, aux, count_0 = 0, n_max, m_max = 0;
 
     cin >> n;
     cin >> m;
-    vector<vector<int>> tiles = vector<vector<int>>(n, vector<int>(m, 0));
-
-
-    // colocação dos 1 na matriz
+    vector<int> tiles_aux;
     for(i = 0; i < n; i++) {
         cin >> aux;
-        if (aux > 0) {
-            for(j = aux - 1; j >= 0; j--) {
-                tiles.at(i).at(j) = 1;
-            }
+        if (aux > m_max) {
+            m_max = aux;
+        }
+        if (aux > 1) {
+            tiles_aux.push_back(aux);
         }
         if (aux == 0){
-            tiles.at(i).at(aux) = 0;
             count_0++;
         }
     }
 
-    if (count_0 == n) {
-        cout << 0 <<endl;
+    n_max = tiles_aux.size();
+    vector<vector<int>> tiles = vector<vector<int>>(n_max, vector<int>(m_max, 0));
+
+    for(i = 0; i < n_max; i++) {
+        for(j = tiles_aux.at(i) - 1; j >= 0; j--) {
+            if (i > 0 && j < m_max - 1) {
+                tiles.at(i).at(j) = tiles.at(i - 1).at(j + 1) + 1;
+            }
+            else {
+                tiles.at(i).at(j) = 1;
+            }
+        }
+    }
+
+    if (n_max == 0) {
+        if (count_0 == n) 
+            cout << 0 << endl;
+        else
+            cout << 1 << endl;
         return 0;
     }
 
-    // Descobre quantos quadrados de n x n cabe em cada ponto da matriz
-    for (i = 1; i < n; i++) {
-        for (j = m - 2; j >= 0; j--) {
-            if (tiles.at(i).at(j) != 0) {
-                tiles.at(i).at(j) = tiles.at(i - 1).at(j + 1) + 1;
-            }
-        }
+    if (tiles.at(n_max - 1).at(0) > 1) {
+        getCombinations(&tiles, n_max, m_max, n_max - 1, 0, -1);
+        cout << combinations << endl;
+        return 0;
     }
 
-    for (i = n - 1; i >= 0; i--) {
-        for (j = 0; j < m; j++) {
-            if (tiles.at(i).at(j) > 1) {
-                getCombinations(tiles, n, m, -1);
-                cout << combinations << endl;
-                return 0;
-            }
-        }
-    }
     cout << 1 << endl;
-    /*cout << "tiles" << endl;
-
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < m; j++) {
-            cout << tiles.at(i).at(j) << " ";
-        }
-        cout << endl;
-    }*/
-
-    //cout << combinations << endl;
 
   return 0;
 }
