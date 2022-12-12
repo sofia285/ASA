@@ -7,17 +7,6 @@ using namespace std;
 
 int combinations = 0;
 
-void printMatrix(vector<vector<int>> tiles, int n, int m) {
-    int i, j;
-    cout << "tiles" << endl;
-    for (i = 0; i < n; i++) {
-        for(j = 0; j < m; j++) {
-            cout << tiles.at(i).at(j) << " ";
-        }
-        cout << endl;
-    }
-}
-
 void getCombinations(vector<vector<int>>* aux_super, int n, int m, int i_0, int j_0, int id) {
 
     int k, i, j, j_1, aux_i, aux_j, s, l;
