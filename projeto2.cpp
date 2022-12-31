@@ -11,11 +11,11 @@ struct Edge {
 };
 
 // Guarda as ligações entre vértices
-class Union {
+class UnionFind {
  public:
   vector<int> parent;
 
-  Union(int n) {
+  UnionFind(int n) {
     parent.resize(n);
     for (int i = 0; i < n; i++) {
       parent[i] = i;
@@ -59,7 +59,7 @@ int main() {
        [](const Edge &a, const Edge &b) { return a.weight > b.weight; });
 
 
-  Union uf(V);
+  UnionFind uf(V);
 
   int sol = 0;
 
