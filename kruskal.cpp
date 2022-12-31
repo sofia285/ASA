@@ -56,30 +56,28 @@ int main() {
 
   // Sort the edges by weight
   sort(edges.begin(), edges.end(),
-       [](const Edge &a, const Edge &b) { return a.weight < b.weight; });
+       [](const Edge &a, const Edge &b) { return a.weight > b.weight; });
 
-  // Initialize the minimum spanning tree to be empty
-  vector<Edge> mst;
 
-  // Initialize the Union-Find data structure
   Union uf(V);
 
-  // For each edge in the sorted list:
+  int sol = 0;
+
   for (const Edge &e : edges) {
     // If adding the edge would create a cycle in the minimum spanning tree, discard the edge
     if (uf.find(e.start) != uf.find(e.end)) {
-      // Otherwise, add the edge to the minimum spanning tree
-      mst.push_back(e);
+      
+      sol += e.weight;
       // Merge the connected components of the start and end vertices
       uf.unite(e.start, e.end);
-    }
+
+      if (uf.parent.size() == 1) {
+        break;
+      }
+    }  
   }
 
-  
-  cout << "Minimum Spanning Tree:" << endl;
-  for (const Edge &e : mst) {
-    cout << e.start << " - " << e.end << " : " << e.weight << endl;
-  }
+  cout << sol << endl;
 
   return 0;
 }
