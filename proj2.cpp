@@ -17,11 +17,13 @@ class UnionFind {
 
   UnionFind(int n) {
     parent.resize(n);
+    // Inicializa o vetor de pais com os próprios vértices
     for (int i = 0; i < n; i++) {
       parent[i] = i;
     }
   }
 
+  // Encontra a raiz do vértice x
   int find(int x) {
     if (x != parent[x]) {
       parent[x] = find(parent[x]);
@@ -33,7 +35,7 @@ class UnionFind {
     int root_x = find(x);
     int root_y = find(y);
     if (root_x != root_y) {
-      parent[root_x] = root_y;
+      parent[root_y] = root_x;
     }
   }
 };
@@ -54,9 +56,9 @@ int main() {
     edges.push_back(e);
   }
 
-  // Sort the edges by weight
+  // Sort the edges in decreasing order of weight
   sort(edges.begin(), edges.end(),
-       [](const Edge &a, const Edge &b) { return a.weight > b.weight; });
+      [](const Edge &a, const Edge &b) { return a.weight > b.weight; });
 
 
   UnionFind uf(V);
