@@ -10,88 +10,100 @@ struct Edge {
   int weight;
 };
 
-class UnionFind {
- public:
-  vector<int> parent;
-  vector<int> rank;
+struct DisjointSets{
+	int *parent, *rank;
+	int n;
 
-  UnionFind(int n) {
-    parent.resize(n);
-    rank.resize(n);
-    // Inicializa o vetor de pais com os próprios vértices
-    for (int i = 0; i < n; i++) {
-      parent[i] = i;
-      rank[i] = 0; 
-    }
-  }
+	DisjointSets(int n)	{
+		this->n = n;
+		parent = new int[n + 1];
+		rank = new int[n + 1];
 
-  // Encontra a raiz do vértice x
-  int find(int x) {
-    if (x != parent[x]) {
-      parent[x] = find(parent[x]);
-    }
-    return parent[x];
-  }
+		for (int i = 0; i <= n; i++){
+			rank[i] = 0;
+			parent[i] = i;
+		}
+	}
 
-  void unite(int x, int y) {
-    int root_x = find(x);
-    int root_y = find(y);
-    if (root_x != root_y) {
-      if (rank[root_x] > rank[root_y]) {
-        parent[root_y] = root_x;
-      } else {
-        parent[root_x] = root_y;
-        if (rank[root_x] == rank[root_y]) {
-          rank[root_y]++;
-        }
-      } 
-    }
-  }
+	int find(int x){
+		if (x != parent[x]){
+			parent[x] = find(parent[x]);
+		}
+		return parent[x];
+	}
+
+	void unite(int x, int y){
+		int root_x = find(x);
+		int root_y = find(y);
+		if (root_x != root_y){
+			if (rank[root_x] > rank[root_y]){
+				parent[root_y] = root_x;
+			} else{
+				parent[root_x] = root_y;
+				if (rank[root_x] == rank[root_y]){
+					rank[root_y]++;
+				}
+			}
+		}
+	}
 };
 
-int main() {
-  int V, E, u, v, w;
- 
-  scanf("%d", &V); 
-  scanf("%d", &E);
+struct Graph{
+	int V, E;
+	vector<Edge> edges;
 
-  vector<Edge> edges;  // Vector to store the edges of the graph
+	Graph(int V, int E)	{
+		this->V = V;
+		this->E = E;
+	}
 
-  // Read the edges from the input
-  for (int i = 0; i < E; i++) {
-    scanf("%d %d %d", &u, &v, &w);
-    Edge e;
-    e.start = u;
-    e.end = v;
-    e.weight = w;
-    edges.push_back(e);
-  }
+	void addEdge(int u, int v, int w){	
+		Edge e;
+    	e.start = u;
+    	e.end = v;
+    	e.weight = w;
+    	edges.push_back(e);
+	}
 
-  // Sort the edges in decreasing order of weight
-  sort(edges.begin(), edges.end(),
-      [](const Edge &a, const Edge &b) { return a.weight > b.weight; });
+	int kruskal(){
+		int sol = 0;
+	
+		sort(edges.begin(), edges.end(),
+      		[](const Edge &a, const Edge &b) { return a.weight > b.weight; });
+	
+		DisjointSets ds(V);
 
+		for (Edge &e : edges){
+			int u = e.start;
+			int v = e.end;
+		
+			int set_u = ds.find(u);
+			int set_v = ds.find(v);
 
-  UnionFind uf(V);
+			if (set_u != set_v){
+				sol += e.weight;
+				ds.unite(set_u, set_v);
+			}
+		}
+		return sol;
+	}
+};
 
-  int sol = 0;
-  int count = 0;
-  for (Edge &e : edges) {
-    // If adding the edge would create a cycle in the minimum spanning tree, discard the edge
-    if (uf.find(e.start) != uf.find(e.end)) {
-      
-      sol += e.weight;
-      // Merge the connected components of the start and end vertices
-      uf.unite(e.start, e.end);
+int main(){
+	int V, E, u, v, w;
 
-      count++;
-      if (count == V - 1) {
-        break;
-      }
-    }  
-  }
+	scanf("%d", &V);
+	scanf("%d", &E);
+	Graph g(V, E);
 
-  printf("%d\n", sol);
+	for (int i = 0; i < E; i++) {
+		scanf("%d %d %d", &u, &v, &w);
+		g.addEdge(u, v, w);
+	}
 
-  return 0;
+	int s = g.kruskal(); 
+
+  	printf("%d\n", s);
+
+	return 0;
 }
