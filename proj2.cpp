@@ -10,7 +10,6 @@ struct Edge {
   int weight;
 };
 
-// Guarda as ligações entre vértices
 class UnionFind {
  public:
   vector<int> parent;
@@ -38,22 +37,23 @@ class UnionFind {
     int root_x = find(x);
     int root_y = find(y);
     if (root_x != root_y) {
-      if (rank[root_x] < rank[root_y]) {
+      if (rank[root_x] > rank[root_y]) {
+        parent[root_y] = root_x;
+      } else {
         parent[root_x] = root_y;
-      } else if (rank[root_x] > rank[root_y]) {
-        parent[root_y] = root_x;
-      } else {  // rank[root_x] == rank[root_y]
-        parent[root_y] = root_x;
-        rank[root_x]++;
-      }
+        if (rank[root_x] == rank[root_y]) {
+          rank[root_y]++;
+        }
+      } 
     }
   }
 };
 
 int main() {
   int V, E, u, v, w;
-  // cin >> V >> E; 
-  scanf("%d %d", &V, &E); 
+ 
+  scanf("%d", &V); 
+  scanf("%d", &E);
 
   vector<Edge> edges;  // Vector to store the edges of the graph
 
@@ -75,7 +75,8 @@ int main() {
   UnionFind uf(V);
 
   int sol = 0;
-  for (const Edge &e : edges) {
+  int count = 0;
+  for (Edge &e : edges) {
     // If adding the edge would create a cycle in the minimum spanning tree, discard the edge
     if (uf.find(e.start) != uf.find(e.end)) {
       
@@ -83,6 +84,10 @@ int main() {
       // Merge the connected components of the start and end vertices
       uf.unite(e.start, e.end);
 
+      count++;
+      if (count == V - 1) {
+        break;
+      }
     }  
   }
 
