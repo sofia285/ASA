@@ -1,5 +1,5 @@
 # Projeto de ASA
 
-**By My Little Pony and Mariana Miranda**.
+**By Sofia Paiva and Mariana Miranda**.
 
 :)  
