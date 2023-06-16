@@ -74,15 +74,12 @@ struct Graph{
 		DisjointSets ds(V);
 
 		for (Edge &e : edges){
-			int u = e.start;
-			int v = e.end;
-		
-			int set_u = ds.find(u);
-			int set_v = ds.find(v);
+			int u = ds.find(e.start);
+			int v = ds.find(e.end);
 
-			if (set_u != set_v){
+			if (u != v){
 				sol += e.weight;
-				ds.unite(set_u, set_v);
+				ds.unite(u, v);
 			}
 		}
 		return sol;
